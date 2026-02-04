@@ -57,6 +57,92 @@
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b1377c3f-011a-4c0f-a843-516842ae056a)
 
 <hr>
+
+<h3>Program:</h3>
+
+```
+from collections import defaultdict
+# Constructing weighted graph
+def astar(start,goal):
+    openset = set(start)
+    closed = set()
+    g  ={}
+    parents = {}
+    g[start]=0
+    parents[start]=start
+    #print(g)
+    while len(openset)>0:
+        n = None
+        for v in openset:
+            if n == None or g[v]+heruistic(v)<g[n]+heruistic(n):
+                n=v
+        if n == goal or Graph_nodes[n]==None:
+            pass
+        else:
+            print(getneighbours(n))
+            for (m,weight) in getneighbours(n):
+                if m not in openset and m not in closed:
+                    openset.add(m)
+                    parents[m]=n
+                    g[m]=g[n]+weight
+                else:
+                    if g[m]>g[n]+weight:
+                        g[m]=g[n]+weight
+                        parents[m]=n
+                        if m in closed:
+                            closed.remove(m)
+                            openset.add(m)
+
+            if n == None:
+                return None
+            # If Goal is reached , traverse the path
+            if n == goal:
+                path=[]
+                while parents[n]!=n:
+                    path.appen(n)
+                    n = parents(n)
+                path.append(start)
+                path.reverse()
+                print(path)
+                return path
+        openset.remove(n)
+        closed.add(n)
+    return None
+        
+
+                
+                   
+def getneighbours(n):
+    if n in Graph_nodes:
+        return Graph_nodes[n]
+    else:
+        return None
+def heruistic(n):
+    return H_dist[n]
+graph = defaultdict(list)
+H_dist = {}
+nodes,edges = map(int,input().split())
+for i in range(edges):
+    u,v,cost = map(str,input().split())
+    t= (u,float(cost))
+    graph[v].append(t)
+    t1=(v,float(cost))
+    graph[u].append(t1)
+
+print(graph)
+Graph_nodes = graph
+for i in range(nodes):
+    node,h=map(str,input().split())
+    H_dist[node]=float(h)
+print(H_dist)
+start = input()
+goal = input()
+print(getneighbours(start))
+print(heruistic(start))
+print(heruistic(goal))
+astar(start,goal)
+
+```
 <h2>Sample Input</h2>
 <hr>
 10 14 <br>
@@ -117,3 +203,6 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+<h2>Output:</h2>
+<img width="1875" height="910" alt="image" src="https://github.com/user-attachments/assets/ee3a5bda-6b6e-4562-a2f3-1426f07561fc" />
